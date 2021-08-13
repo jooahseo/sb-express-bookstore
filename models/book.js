@@ -105,6 +105,15 @@ class Book {
    * */
 
   static async update(isbn, data) {
+    const book = await this.findOne(isbn);
+    const amazon_url = data.amazon_url === undefined ? book.amazon_url : data.amazon_url;
+    const author = data.author === undefined ? book.author : data.author;
+    const language = data.language === undefined ? book.language : data.language;
+    const pages = data.pages === undefined ? book.pages : data.pages;
+    const publisher = data.publisher === undefined ? book.publisher : data.publisher;
+    const title = data.title === undefined ? book.title : data.title;
+    const year = data.year === undefined ? book.year : data.year;
+
     const result = await db.query(
       `UPDATE books SET 
             amazon_url=($1),
@@ -124,13 +133,13 @@ class Book {
                   title,
                   year`,
       [
-        data.amazon_url,
-        data.author,
-        data.language,
-        data.pages,
-        data.publisher,
-        data.title,
-        data.year,
+        amazon_url,
+        author,
+        language,
+        pages,
+        publisher,
+        title,
+        year,
         isbn
       ]
     );
